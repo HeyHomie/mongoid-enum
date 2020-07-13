@@ -57,12 +57,12 @@ module Mongoid
 
       def define_value_scopes_and_accessors(field_name, values, options)
         values.each do |value|
-          scope value, ->{ where(field_name => value) }
+          scope value, ->{ where(field_name => value) } unless options[:_skip_scopes]
 
           if options[:multiple]
-            define_array_accessor(field_name, value)
+            define_array_accessor(field_name, value) unless options[:_skip_accessors]
           else
-            define_string_accessor(field_name, value)
+            define_string_accessor(field_name, value) unless options[:_skip_accessors]
           end
         end
       end
